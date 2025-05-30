@@ -14,69 +14,41 @@ class GameOverDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Dialog(
-      backgroundColor: Colors.transparent,
-      child: Container(
-        padding: const EdgeInsets.all(24),
-        decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.1),
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(
-            color: Colors.white.withOpacity(0.2),
-            width: 1.5,
+    return AlertDialog(
+      title: const Text('Game Over!'),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            'Your Score: $score',
+            style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           ),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.1),
-              blurRadius: 10,
-              spreadRadius: 2,
+          const SizedBox(height: 8),
+          Text(
+            'High Score: $highScore',
+            style: TextStyle(
+              fontSize: 18,
+              color: score >= highScore ? Colors.green : Colors.grey,
             ),
-          ],
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              'Game Over!',
-              style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                color: Colors.white,
+          ),
+          if (score >= highScore) ...[
+            const SizedBox(height: 16),
+            const Text(
+              'New High Score! 🎉',
+              style: TextStyle(
+                color: Colors.green,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            const SizedBox(height: 24),
-            Text(
-              'Score: $score',
-              style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                color: Colors.white,
-              ),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              'High Score: $highScore',
-              style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                color: Colors.white,
-              ),
-            ),
-            const SizedBox(height: 32),
-            ElevatedButton(
-              onPressed: onRestart,
-              style: ElevatedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 32,
-                  vertical: 16,
-                ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30),
-                ),
-              ),
-              child: const Text(
-                'Play Again',
-                style: TextStyle(fontSize: 18),
-              ),
-            ),
           ],
-        ),
+        ],
       ),
+      actions: [
+        TextButton(
+          onPressed: onRestart,
+          child: const Text('Play Again'),
+        ),
+      ],
     );
   }
 } 

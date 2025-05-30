@@ -16,13 +16,15 @@ class GameScreen extends StatefulWidget {
 class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateMixin {
   int score = 0;
   int highScore = 0;
-  double timeLimit = 1.5;
+  double timeLimit = 6.0;
   bool isGameOver = false;
-  late Timer gameTimer;
+  Timer? gameTimer;
   late AnimationController _animationController;
   final Random _random = Random();
   ShapeType? currentShape;
   Offset? currentPosition;
+  Size? screenSize;
+  bool _isFirstBuild = true;
 
   @override
   void initState() {
@@ -32,7 +34,94 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
       vsync: this,
       duration: const Duration(milliseconds: 300),
     );
-    _startGame();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    screenSize = MediaQuery.of(context).size;
+    
+    if (_isFirstBuild) {
+      _isFirstBuild = false;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _showTutorial();
+      });
+    }
+  }
+
+  void _showTutorial() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => AlertDialog(
+        title: const Text('How to Play'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text('Welcome to Tap Challenge!'),
+            const SizedBox(height: 16),
+            Row(
+              children: [
+                Container(
+                  width: 20,
+                  height: 20,
+                  decoration: const BoxDecoration(
+                    color: Colors.blue,
+                    shape: BoxShape.circle,
+                  ),
+                ),
+                const SizedBox(width: 8),
+                const Text('Blue Circle: Tap for 1 point'),
+              ],
+            ),
+            const SizedBox(height: 8),
+            Row(
+              children: [
+                Container(
+                  width: 20,
+                  height: 20,
+                  decoration: BoxDecoration(
+                    color: Colors.green,
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                const Text('Green Square: Tap for 1 point'),
+              ],
+            ),
+            const SizedBox(height: 8),
+            Row(
+              children: [
+                Container(
+                  width: 20,
+                  height: 20,
+                  decoration: const BoxDecoration(
+                    color: Colors.red,
+                    shape: BoxShape.circle,
+                  ),
+                ),
+                const SizedBox(width: 8),
+                const Text('Red Shape: Avoid it!'),
+              ],
+            ),
+            const SizedBox(height: 16),
+            const Text('• Tap shapes before they disappear'),
+            const Text('• Each successful tap reduces the time limit'),
+            const Text('• Try to get the highest score!'),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+              _startGame();
+            },
+            child: const Text('Start Game'),
+          ),
+        ],
+      ),
+    );
   }
 
   Future<void> _loadHighScore() async {
@@ -55,22 +144,23 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
   void _startGame() {
     setState(() {
       score = 0;
-      timeLimit = 1.5;
+      timeLimit = 6.0;
       isGameOver = false;
     });
     _spawnNewShape();
   }
 
   void _spawnNewShape() {
-    if (isGameOver) return;
+    if (isGameOver || screenSize == null) return;
 
-    final screenSize = MediaQuery.of(context).size;
+    gameTimer?.cancel();
+
     final shapeSize = 60.0;
     
     setState(() {
       currentPosition = Offset(
-        _random.nextDouble() * (screenSize.width - shapeSize),
-        _random.nextDouble() * (screenSize.height - shapeSize),
+        _random.nextDouble() * (screenSize!.width - shapeSize),
+        _random.nextDouble() * (screenSize!.height - shapeSize),
       );
       currentShape = _random.nextBool() ? ShapeType.circle : ShapeType.square;
       if (_random.nextInt(5) == 0) {
@@ -79,36 +169,56 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
     });
 
     _animationController.forward(from: 0.0);
-    gameTimer = Timer(Duration(milliseconds: (timeLimit * 1000).round()), () {
-      if (!isGameOver) {
-        _gameOver();
-      }
-    });
+    
+    // If it's a danger shape, make it disappear faster
+    if (currentShape == ShapeType.danger) {
+      gameTimer = Timer(const Duration(milliseconds: 1500), () {
+        if (!isGameOver && mounted) {
+          _spawnNewShape();
+        }
+      });
+    } else {
+      gameTimer = Timer(Duration(milliseconds: (timeLimit * 1000).round()), () {
+        if (!isGameOver && mounted) {
+          _gameOver();
+        }
+      });
+    }
   }
 
   void _onShapeTap() {
     if (isGameOver) return;
 
+    gameTimer?.cancel();
+
     if (currentShape == ShapeType.danger) {
-      _gameOver();
+      // Instead of game over, just spawn a new shape
+      _spawnNewShape();
       return;
     }
 
     setState(() {
       score++;
-      timeLimit = max(0.5, timeLimit - 0.1);
+      timeLimit = max(1.0, timeLimit - 0.05);
     });
 
-    gameTimer.cancel();
-    _spawnNewShape();
+    Future.delayed(const Duration(milliseconds: 100), () {
+      if (!isGameOver && mounted) {
+        _spawnNewShape();
+      }
+    });
   }
 
   void _gameOver() {
+    if (!mounted) return;
+    
     setState(() {
       isGameOver = true;
     });
-    gameTimer.cancel();
+    
+    gameTimer?.cancel();
     _saveHighScore();
+    
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -125,7 +235,7 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
 
   @override
   void dispose() {
-    gameTimer.cancel();
+    gameTimer?.cancel();
     _animationController.dispose();
     super.dispose();
   }
