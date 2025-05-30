@@ -8,16 +8,16 @@ void main() {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-  runApp(const TapChallengeApp());
+  runApp(const TouchItApp());
 }
 
-class TapChallengeApp extends StatelessWidget {
-  const TapChallengeApp({super.key});
+class TouchItApp extends StatelessWidget {
+  const TouchItApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Tap Challenge',
+      title: 'Touch It',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         useMaterial3: true,

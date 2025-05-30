@@ -1,4 +1,4 @@
-# Tap Challenge
+# Touch It
 
 A modern Flutter game where players must tap shapes before they disappear. The game features a clean, glassy design and progressively increasing difficulty.
 

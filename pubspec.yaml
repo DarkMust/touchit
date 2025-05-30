@@ -19,6 +19,8 @@ dev_dependencies:
   flutter_lints: ^2.0.0
   flutter_launcher_icons: ^0.14.3
   flutter_native_splash: ^2.3.10
+  integration_test:
+    sdk: flutter
 
 flutter_native_splash:
   color: "#000000"
