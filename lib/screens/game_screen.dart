@@ -192,8 +192,7 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
     gameTimer?.cancel();
 
     if (currentShape == ShapeType.danger) {
-      // Instead of game over, just spawn a new shape
-      _spawnNewShape();
+      _gameOver();
       return;
     }
 
