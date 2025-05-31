@@ -55,6 +55,11 @@ flutter:
   assets:
     - assets/fonts/
     - assets/images/
+    - assets/sounds/
+    - assets/sounds/GoodTap1_effect.mp3
+    - assets/sounds/GoodTap2_effect.mp3
+    - assets/sounds/BadTap_effect.mp3
+    - assets/sounds/GameOver_effect.mp3
   fonts:
     - family: Poppins
       fonts:

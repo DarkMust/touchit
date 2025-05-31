@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../widgets/shape_widget.dart';
 import '../widgets/score_display.dart';
 import '../widgets/game_over_dialog.dart';
+import '../services/sound_manager.dart';
 
 class GameScreen extends StatefulWidget {
   const GameScreen({super.key});
@@ -25,6 +26,7 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
   Offset? currentPosition;
   Size? screenSize;
   bool _isFirstBuild = true;
+  final SoundManager _soundManager = SoundManager();
 
   @override
   void initState() {
@@ -34,6 +36,7 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
       vsync: this,
       duration: const Duration(milliseconds: 300),
     );
+    _soundManager.loadSounds();
   }
 
   @override
@@ -192,10 +195,13 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
     gameTimer?.cancel();
 
     if (currentShape == ShapeType.danger) {
+      _soundManager.playDangerSound();
+      _soundManager.disposeTapPlayers();
       _gameOver();
       return;
     }
 
+    _soundManager.playTapSound();
     setState(() {
       score++;
       timeLimit = max(1.0, timeLimit - 0.05);
@@ -211,12 +217,16 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
   void _gameOver() {
     if (!mounted) return;
     
+    _soundManager.stopAllSounds();
+    _soundManager.disposeDangerPlayer();
+
     setState(() {
       isGameOver = true;
     });
     
     gameTimer?.cancel();
     _saveHighScore();
+    _soundManager.playGameOverSound();
     
     showDialog(
       context: context,
@@ -225,6 +235,7 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
         score: score,
         highScore: highScore,
         onRestart: () {
+          _soundManager.loadSounds();
           Navigator.of(context).pop();
           _startGame();
         },
@@ -236,6 +247,7 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
   void dispose() {
     gameTimer?.cancel();
     _animationController.dispose();
+    _soundManager.dispose();
     super.dispose();
   }
 
