@@ -150,6 +150,7 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
       timeLimit = 6.0;
       isGameOver = false;
     });
+    _soundManager.startBackgroundMusic();
     _spawnNewShape();
   }
 
@@ -219,6 +220,7 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
     
     _soundManager.stopAllSounds();
     _soundManager.disposeDangerPlayer();
+    _soundManager.stopBackgroundMusic();
 
     setState(() {
       isGameOver = true;
