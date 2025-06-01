@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:touchit/widgets/score_display.dart';
+import 'package:tappyshape/widgets/score_display.dart';
 
 void main() {
   testWidgets('ScoreDisplay shows the correct score', (WidgetTester tester) async {

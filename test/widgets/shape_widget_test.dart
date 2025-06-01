@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:touchit/widgets/shape_widget.dart';
+import 'package:tappyshape/widgets/shape_widget.dart';
 
 void main() {
   testWidgets('ShapeWidget renders blue circle', (WidgetTester tester) async {

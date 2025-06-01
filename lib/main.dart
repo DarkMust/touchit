@@ -8,16 +8,16 @@ void main() {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-  runApp(const TouchItApp());
+  runApp(const TappyShapeApp());
 }
 
-class TouchItApp extends StatelessWidget {
-  const TouchItApp({super.key});
+class TappyShapeApp extends StatelessWidget {
+  const TappyShapeApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Touch It',
+      title: 'TappyShape',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         useMaterial3: true,

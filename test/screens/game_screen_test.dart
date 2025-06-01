@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:touchit/screens/game_screen.dart';
+import 'package:tappyshape/screens/game_screen.dart';
 
 void main() {
   testWidgets('GameScreen shows tutorial dialog and starts game', (WidgetTester tester) async {

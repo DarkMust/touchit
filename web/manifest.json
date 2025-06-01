@@ -1,11 +1,11 @@
 {
-    "name": "touchit",
-    "short_name": "touchit",
+    "name": "tappyshape",
+    "short_name": "tappyshape",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "A modern Flutter game where players tap shapes before they disappear.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

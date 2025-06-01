@@ -62,7 +62,7 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('Welcome to Touch It!'),
+            const Text('Welcome to TappyShape!'),
             const SizedBox(height: 16),
             Row(
               children: [

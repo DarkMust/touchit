@@ -1,7 +1,7 @@
-name: touchit
+name: tappyshape
 description: A modern Flutter game where players tap shapes before they disappear.
 publish_to: 'none'
-version: 1.0.0+1
+version: 1.0.0+2
 
 environment:
   sdk: '>=3.0.0 <4.0.0'

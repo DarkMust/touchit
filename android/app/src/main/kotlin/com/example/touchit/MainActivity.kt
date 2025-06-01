@@ -1,4 +1,4 @@
-package com.example.touchit
+package com.thewalldy.tappyshape
 
 import io.flutter.embedding.android.FlutterActivity
 

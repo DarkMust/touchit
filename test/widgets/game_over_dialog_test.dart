@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:touchit/widgets/game_over_dialog.dart';
+import 'package:tappyshape/widgets/game_over_dialog.dart';
 
 void main() {
   testWidgets('GameOverDialog shows score and high score', (WidgetTester tester) async {
