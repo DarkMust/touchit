@@ -31,6 +31,7 @@ A modern Flutter game where players must tap shapes before they disappear. The g
 - Flutter SDK
 - shared_preferences: ^2.2.2
 - audioplayers: ^5.2.1
+- cupertino_icons: ^1.0.2
 
 ## Contributing
 
