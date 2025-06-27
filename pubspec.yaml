@@ -1,7 +1,7 @@
 name: tappyshape
 description: A modern Flutter game where players tap shapes before they disappear.
 publish_to: 'none'
-version: 1.0.0+2
+version: 1.1.0+1
 
 environment:
   sdk: '>=3.0.0 <4.0.0'
@@ -12,6 +12,7 @@ dependencies:
   shared_preferences: ^2.2.2
   audioplayers: ^5.2.1
   cupertino_icons: ^1.0.2
+  flutter_markdown: ^0.7.7+1
 
 dev_dependencies:
   flutter_test:
@@ -60,6 +61,8 @@ flutter:
     - assets/sounds/GoodTap2_effect.mp3
     - assets/sounds/BadTap_effect.mp3
     - assets/sounds/GameOver_effect.mp3
+    - assets/legal/privacy_policy.md
+    - assets/legal/terms_and_conditions.md
   fonts:
     - family: Poppins
       fonts:

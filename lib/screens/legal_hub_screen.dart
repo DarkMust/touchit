@@ -1,15 +1,25 @@
-import 'package:flutter/material.dart';
-import 'game_screen.dart';
-import 'legal_hub_screen.dart';
-import '../widgets/animated_emoji_background.dart';
 import 'dart:ui';
+import 'package:flutter/material.dart';
+import 'legal/privacy_policy_screen.dart';
+import 'legal/terms_and_conditions_screen.dart';
+import '../widgets/animated_emoji_background.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+class LegalHubScreen extends StatelessWidget {
+  const LegalHubScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        title: const Text(
+          'The Legal Stuff 📜',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        centerTitle: true,
+      ),
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -43,33 +53,31 @@ class HomeScreen extends StatelessWidget {
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Text(
-                          'TappyShape',
-                          style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+                        const Text(
+                          "Don't worry, it's not that scary!",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 18,
                             fontWeight: FontWeight.bold,
-                            color: Theme.of(context).colorScheme.onSurface,
                           ),
                         ),
-                        const SizedBox(height: 40),
+                        const SizedBox(height: 24),
                         ElevatedButton(
                           onPressed: () {
                             Navigator.of(context).push(
                               MaterialPageRoute(
-                                builder: (context) => const GameScreen(),
+                                builder: (context) => const PrivacyPolicyScreen(),
                               ),
                             );
                           },
                           style: ElevatedButton.styleFrom(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 40,
-                              vertical: 16,
-                            ),
+                            padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 16),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(30),
                             ),
                           ),
                           child: const Text(
-                            'Start Game',
+                            'Privacy Policy',
                             style: TextStyle(fontSize: 18),
                           ),
                         ),
@@ -78,21 +86,18 @@ class HomeScreen extends StatelessWidget {
                           onPressed: () {
                             Navigator.of(context).push(
                               MaterialPageRoute(
-                                builder: (context) => const LegalHubScreen(),
+                                builder: (context) => const TermsAndConditionsScreen(),
                               ),
                             );
                           },
                           style: ElevatedButton.styleFrom(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 40,
-                              vertical: 16,
-                            ),
+                            padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 16),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(30),
                             ),
                           ),
                           child: const Text(
-                            'Legal',
+                            'Terms & Conditions',
                             style: TextStyle(fontSize: 18),
                           ),
                         ),
